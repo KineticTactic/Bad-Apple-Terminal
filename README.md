@@ -19,3 +19,5 @@ Reads the image sequence and generates `data.txt` containing the frames converte
 ### `npm start`
 
 Plays the video in the console. Enjoy!
+
+Note: If you want to play it again, run `npm start`. You dont have to run the other commands, unless you delete the `data.txt` file.
