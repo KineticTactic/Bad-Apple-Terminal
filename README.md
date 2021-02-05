@@ -2,6 +2,11 @@
 
 Here is a Demo [Youtube video](https://youtu.be/_JTHbbsSCZk).
 
+## Requirments
+
+-   FFmpeg
+-   A terminal that supports unicode characters
+
 ## Steps to run
 
 ### `npm install`
