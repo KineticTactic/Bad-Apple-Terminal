@@ -1,0 +1,18 @@
+{
+    "name": "bad-apple-terminal",
+    "version": "1.0.0",
+    "description": "A nodejs script for playing BadApple in the terminal",
+    "main": "index.js",
+    "scripts": {
+        "extract": "node extractFrames",
+        "build": "node build",
+        "start": "node index"
+    },
+    "author": "KineticTactic",
+    "license": "MIT",
+    "dependencies": {
+        "ffmpeg": "0.0.4",
+        "get-pixels": "^3.3.2",
+        "node-gameloop": "^0.1.4"
+    }
+}
