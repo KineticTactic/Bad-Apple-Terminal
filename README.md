@@ -4,6 +4,7 @@ Here is a Demo [Youtube video](https://youtu.be/_JTHbbsSCZk).
 
 ## Requirements
 
+-   Node.js
 -   FFmpeg
 -   A terminal that supports unicode characters
 
