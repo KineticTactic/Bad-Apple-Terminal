@@ -10,16 +10,12 @@ function doFrame(id, index = 1, end = NaN) {
   let indexString = toFourDigits(index.toString());
   let path = `frames/frame_${indexString}.png`;
 
-  if (!isNaN(end) && index === end) {
-    process.stdout.write(` Done. ${startIndex} to ${endIndex}`);
+  if (!isNaN(end) && index === end)
     return process.exit();
-  };
 
   getPixels(path, (err, pixels) => {
-      if (err) {
-          process.stdout.write(` Done. ${startIndex} to ${endIndex}`);
+      if (err)
           return process.exit();
-      }
 
       let string = "";
 
