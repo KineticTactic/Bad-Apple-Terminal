@@ -17,7 +17,7 @@ const build = (index) => {
         for (let i = 0; i < processCount; i++) {
             const cprocess = childprocess.fork("./doFrame.js");
             cprocess.send({ id: i, index: i*unit+1, end: (i*unit)+unit+1 });
-            cprocess.on("message", (msg) => { if (msg === "plus") progress++; process.stdout.write(`\rTo text frames... ${(progress/files.length*100).toFixed(2)}`); });
+            cprocess.on("message", (msg) => { if (msg === "plus") progress++; process.stdout.write(`\rTo text frames... ${(progress/files.length*100).toFixed(2)}%`); });
             cprocess.on("exit", () => {
                 processCount--;
                 console.log(` ${processCount} processes left...`);
