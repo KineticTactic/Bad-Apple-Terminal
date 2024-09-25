@@ -16,6 +16,7 @@ function extract() {
             (video) => {
                 console.log("Processing Video...");
                 video.setVideoSize("120x90");   
+                video.setVideoFrameRate(30);
                 video.save("frames/frame_%04d.png", (error, file) => {
                     if (error) console.log(error);
                     else console.log("Video has been processed!");
