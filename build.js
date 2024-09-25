@@ -1,4 +1,5 @@
 const fs = require("fs");
+const os = require("os");
 const childprocess = require("child_process");
 
 const build = (index) => {
@@ -11,7 +12,7 @@ const build = (index) => {
         files.sort((a, b) => {
             return parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]);
         });
-        const unit = 500;
+        const unit = Math.ceil(files.length/os.cpus().length);
         let progress = 0;
         let processCount = Math.ceil(files.length/unit);
         for (let i = 0; i < processCount; i++) {
