@@ -6,6 +6,7 @@
     "scripts": {
         "extract": "node extractFrames",
         "build": "node build",
+        "prepare": "node extractFrames ${file} && node build",
         "start": "node index"
     },
     "author": "KineticTactic",
@@ -13,6 +14,7 @@
     "dependencies": {
         "ffmpeg": "0.0.4",
         "get-pixels": "^3.3.2",
+        "jimp": "^1.6.0",
         "node-gameloop": "^0.1.4"
     }
 }
