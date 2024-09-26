@@ -1,61 +1,52 @@
-const getPixels = require("get-pixels");
 const fs = require("fs");
-
-const { toFourDigits } = require("./utilities");
+const os = require("os");
+const childprocess = require("child_process");
 
 const build = (index) => {
-    // Delete file if exists
-    if (fs.existsSync("data.txt")) {
-        fs.writeFileSync("data.txt", "", { flag: "w" }, (err) => {});
+    if (fs.existsSync("./data")) {
+        fs.rmSync("./data", { recursive: true, force: true });
     }
+    fs.mkdirSync("./data");
 
-    doFrame();
+    fs.readdir("./frames", (err, files) => {
+        files.sort((a, b) => {
+            return parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]);
+        });
+        const unit = Math.ceil(files.length/os.cpus().length);
+        let progress = 0;
+        let processCount = Math.ceil(files.length/unit);
+        for (let i = 0; i < processCount; i++) {
+            const cprocess = childprocess.fork("./doFrame.js");
+            cprocess.send({ id: i, index: i*unit+1, end: (i*unit)+unit+1 });
+            cprocess.on("message", (msg) => { if (msg === "plus") progress++; process.stdout.write(`\rTo text frames... ${(progress/files.length*100).toFixed(2)}%`); });
+            cprocess.on("exit", () => {
+                processCount--;
+                console.log(` ${processCount} processes left...`);
+                
+                if (processCount === 0) {
+                    console.log("Frame extract done! Merging...");
+                    mergeData();
+                    process.exit();
+                }
+            })
+        }
+    });
 };
 
-function doFrame(index = 1) {
-    let indexString = toFourDigits(index.toString());
-    let path = `frames/BadApple${indexString}.png`;
+function mergeData() {
+    if (fs.existsSync("./data.txt")) {
+        fs.writeFileSync("./data.txt", "", { flag: "w" }, (err) => {});
+    }
 
-    getPixels(path, (err, pixels) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-
-        let string = "";
-
-        const symbols = "⠀⠃⠇⠏⠟⠿";
-
-        let widthCounter = 0;
-        for (let i = 0; i < pixels.data.length; i += 4) {
-            let value = (pixels.data[i] + pixels.data[i + 1] + pixels.data[i + 2]) / 3;
-            value = Math.max(pixels.data[i], pixels.data[i + 1], pixels.data[i + 2]);
-
-            // string += getCharacterForGrayScale(value) + getCharacterForGrayScale(value);
-            const index = Math.floor(value / (256 / 6));
-            string += symbols[index].repeat(2);
-
-            widthCounter++;
-            if (widthCounter === 120) {
-                widthCounter = 0;
-                string += "\n";
-            }
-        }
-        string += "\n";
-        const regexes = [/(⠀+)/g, /(⠃+)/g, /(⠇+)/g, /(⠏+)/g, /(⠟+)/g, /(⠿+)/g];
-        for (let i = 0; i < regexes.length; i++) {
-            const matches = string.match(regexes[i]) || [];
-            for (let match of matches) {
-                string = string.replace(match, symbols[i] + toFourDigits(match.length.toString()));
-            }
-        }
-
-        fs.writeFileSync("data.txt", string, { flag: "a" }, (err) => {});
-
-        console.log(index);
-
-        doFrame(index + 1);
+    const data = fs.readdirSync("./data");
+    data.sort((a, b) => {
+        return parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]);
     });
+    data.forEach((file) => {
+        const content = fs.readFileSync(`./data/${file}`, "utf-8");
+        fs.writeFileSync("./data.txt", content, { flag: "a" }, (err) => {});
+    });
+    console.log("Done!");
 }
 
 build(1);

@@ -36,7 +36,7 @@ function run() {
             readline.cursorTo(process.stdout, 0, 2);
             process.stdout.write(string);
             process.stdout.write(
-                `Frame: ${index}  |  FPS: ${index / ((Date.now() - startTime) / 1000)} \n`
+                `Frame: ${index}(${(index/frames.length*100).toFixed(2)}%)  |  FPS: ${index / ((Date.now() - startTime) / 1000)} \n`
             );
 
             index++;
