@@ -37,6 +37,8 @@ function doFrame(id, index = 1, end = NaN) {
           }
       }
       string += "\n";
+
+      // compress
       const regexes = [/(⠀+)/g, /(⠃+)/g, /(⠇+)/g, /(⠏+)/g, /(⠟+)/g, /(⠿+)/g];
       for (let i = 0; i < regexes.length; i++) {
           const matches = string.match(regexes[i]) || [];

@@ -6,7 +6,8 @@
     "scripts": {
         "extract": "node extractFrames",
         "build": "node build",
-        "prepare": "node extractFrames ${file} && node build",
+        "prepare": "node extractFrames",
+        "postprepare": "node build",
         "start": "node index"
     },
     "author": "KineticTactic",
