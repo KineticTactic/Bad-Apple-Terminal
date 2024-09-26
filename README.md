@@ -14,13 +14,15 @@ Here is a Demo [Youtube video](https://youtu.be/_JTHbbsSCZk).
 
 Installs the required dependecies.
 
-### `npm run extract`
+### `npm run prepare`
+Prepare the resources.
+- Extracts the video file into an image sequence.
+- Reads the image sequence and generates `data.txt` containing the frames converted into text.
 
-Extracts the video file into an image sequence.
+**OR**
 
-### `npm run build`
-
-Reads the image sequence and generates `data.txt` containing the frames converted into text.
+### `npm run prepare <filepath>`
+Prepare the resources for specific video.
 
 ### `npm start`
 
